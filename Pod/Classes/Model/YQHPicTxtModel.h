@@ -10,6 +10,8 @@
 
 @interface YQHPicTxtModel : NSObject
 
+@property (nonatomic, copy) NSString* ID;
+
 //头像
 @property (nonatomic, copy) NSString* avatarUrl;
 
@@ -28,11 +30,14 @@
 //照片
 @property (nonatomic, strong) NSArray* photos;
 
-//是否收藏
-@property (nonatomic) BOOL isStar;
+//是否喜欢
+@property (nonatomic) BOOL isLike;
 
-//点赞个数
-@property (nonatomic) int favorCount;
+//喜欢 点赞 个数
+@property (nonatomic) int likeCount;
+
+//是否收藏
+@property (nonatomic) BOOL isCollected;
 
 
 

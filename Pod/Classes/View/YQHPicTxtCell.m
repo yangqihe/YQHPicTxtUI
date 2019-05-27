@@ -45,13 +45,11 @@
 
 @implementation YQHPicTxtCell
 
+const CGFloat avatarTxtMargin = 12.0f;//头像 文字 间隙
+const CGFloat txtImgMargin = 6.0f;//文字 照片 间隙
 
-const CGFloat commmonMargin = 12.0f;
 const CGFloat avatarMarginTop=15.0f;
 const CGFloat avatarWidth = 45.0f;
-//const CGFloat marginLeft = 16.0f;
-//const CGFloat marginRight = 16.0f;
-
 const CGFloat toolBarHeight = 50.0f;
 
 #define image_loading1 [UIImage imageNamed:@"image_loading1"]
@@ -156,7 +154,7 @@ const CGFloat toolBarHeight = 50.0f;
     [self.detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.mas_left);
         make.right.equalTo(self.contentView.mas_right).offset(-marginLeft);
-        make.top.equalTo(self.avatarView.mas_bottom).offset(commmonMargin);
+        make.top.equalTo(self.avatarView.mas_bottom).offset(avatarTxtMargin);
     }];
     
     //图片
@@ -181,8 +179,8 @@ const CGFloat toolBarHeight = 50.0f;
     
     [self.photosView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.mas_left);
-        make.top.equalTo(self.detailLabel.mas_bottom).offset(commmonMargin);
-        make.width.equalTo(@(SCREEN_WIDTH-32));
+        make.top.equalTo(self.detailLabel.mas_bottom).offset(txtImgMargin);
+        make.width.equalTo(@(SCREEN_WIDTH-marginLeft-marginRight));
     }];
     
     
@@ -308,7 +306,7 @@ const CGFloat toolBarHeight = 50.0f;
         photosHeight+=commonImageWidth;
     }else if(3<model.photos.count&&model.photos.count<=6){
         photosHeight+=commonImageWidth*2+commonImageMagin;
-    }else{
+    }else if((6<model.photos.count&&model.photos.count<=9)){
         photosHeight+=commonImageWidth*3+commonImageMagin*2;
     }
     
@@ -319,8 +317,8 @@ const CGFloat toolBarHeight = 50.0f;
     [self calculatePhotosPosition:model];
     
     self.bottomToolBar.commontCount=model.commentCount;
-    self.bottomToolBar.favorCount=model.favorCount;
-    self.bottomToolBar.isStar=model.isStar;
+    self.bottomToolBar.favorCount=model.likeCount;
+    self.bottomToolBar.isStar=model.isLike;
     
     [YQHPicTxtCell calculateComment:model];
     //评论的tableView
@@ -409,16 +407,14 @@ const CGFloat toolBarHeight = 50.0f;
         
         height+=avatarWidth;//头像 高度
         
-        height+=commmonMargin;//头像 文字 间隙
+        height+=avatarTxtMargin;//头像 文字 间隙
         
         CGFloat strHeight=[YQHPicTxtCell getSpaceLabelHeight:model.text withFont:detailTxtFont withWidth:detailTxtLineWidth];
         
         
         height+=strHeight;
         
-        //DLog(@"---文字高度----%f",height);
-        
-        height+=commmonMargin;//文字 照片 间隙
+        height+=txtImgMargin;//文字 照片 间隙
         
         if (model.photos.count==1) {
             height+=commonImageWidth*1.5;//自适应
@@ -426,7 +422,7 @@ const CGFloat toolBarHeight = 50.0f;
             height+=commonImageWidth;
         }else if(3<model.photos.count&&model.photos.count<=6){
             height+=commonImageWidth*2+commonImageMagin;
-        }else{
+        }else if((6<model.photos.count&&model.photos.count<=9)){
             height+=commonImageWidth*3+commonImageMagin*2;
         }
         
