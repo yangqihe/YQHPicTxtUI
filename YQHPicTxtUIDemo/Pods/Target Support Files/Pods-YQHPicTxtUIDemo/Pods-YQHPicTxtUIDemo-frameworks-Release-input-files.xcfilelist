@@ -1,0 +1,5 @@
+${PODS_ROOT}/Target Support Files/Pods-YQHPicTxtUIDemo/Pods-YQHPicTxtUIDemo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/YQHPicTxtUI/YQHPicTxtUI.framework
+${BUILT_PRODUCTS_DIR}/YYText/YYText.framework

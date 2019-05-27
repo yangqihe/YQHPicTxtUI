@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "YQHPicTxtUI"
 
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
 
   spec.ios.deployment_target = '8.0'
 
@@ -36,5 +36,7 @@ Pod::Spec.new do |spec|
   spec.dependency "Masonry" , "~> 1.1.0"
 
   spec.dependency "SDWebImage","~> 5.0"
-
+  
+  spec.dependency "YYText","~> 1.0.7"
+  
 end
