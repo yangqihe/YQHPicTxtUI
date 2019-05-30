@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "YQHPicTxtTextView.h"
 
+@class YQHPicTxtModel;
+@class YQHPicTxtCommentModel;
+
 @protocol YQHPicTxtInputTextViewDelegate <NSObject>
 
 @optional
--(void)didSendTxt:(NSString*)txt indexPath:(NSIndexPath*)indexPath;
+-(void)didSendTxt:(NSString*)txt indexPath:(NSIndexPath*)indexPath picTxtModel:(YQHPicTxtModel*)picTxtModel commentModel:(YQHPicTxtCommentModel*)commentModel;
 
 @end
 
@@ -22,7 +25,7 @@
 
 @property (nonatomic, weak)  id<YQHPicTxtInputTextViewDelegate> delegate;
 
--(void)willShow:(NSIndexPath *)indexPath;
+-(void)willShow:(NSIndexPath *)indexPath picTxtModel:(YQHPicTxtModel*)picTxtModel commentModel:(YQHPicTxtCommentModel*)commentModel;
 
 @end
 

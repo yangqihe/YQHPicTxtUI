@@ -26,6 +26,8 @@
 
 @property (nonatomic)  int commontCount;
 
-@property (nonatomic)  BOOL isStar;
+@property (nonatomic)  BOOL isFavor;
+
+@property (nonatomic)  BOOL isCollected;
 
 @end

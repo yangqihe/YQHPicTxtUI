@@ -31,13 +31,13 @@
 @property (nonatomic, strong) NSArray* photos;
 
 //是否喜欢
-@property (nonatomic) BOOL isLike;
+@property (assign) BOOL isFavor;
 
 //喜欢 点赞 个数
-@property (nonatomic) int likeCount;
+@property (assign) int favorCount;
 
 //是否收藏
-@property (nonatomic) BOOL isCollected;
+@property (assign) BOOL isCollected;
 
 
 
@@ -45,18 +45,35 @@
 @property (nonatomic , strong) NSMutableArray *comments;
 
 //消息个数
-@property (nonatomic) int commentCount;
+@property (assign) int commentCount;
+
+@property (assign) BOOL isVideo;
+
+@property (nonatomic,copy) NSString *videoThumbURL;
+
+@property (nonatomic,copy) NSString *videoURL;
+
+//实际的宽高
+@property (assign) CGFloat fileWidth;
+
+@property (assign) CGFloat fileHeight;
+
+
+//计算后的宽高
+@property (assign) CGFloat actualWidth;
+
+@property (assign) CGFloat actualHeight;
 
 
 /**
  动态计算cell的高度  计算过的保留下来避免重新计算
  */
-@property (nonatomic) CGFloat cellHeight;
+@property (assign) CGFloat cellHeight;
 
 /**
  评论回复的尺寸
  */
-@property (nonatomic , assign ) CGRect tableViewFrame;
+@property (assign) CGRect tableViewFrame;
 
 
 @end

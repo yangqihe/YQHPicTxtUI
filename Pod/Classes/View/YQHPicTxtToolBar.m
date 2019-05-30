@@ -33,10 +33,11 @@
 @property (weak, nonatomic) UILabel *commentCountLabel;
 
 //星星
-@property (weak, nonatomic) UIButton *starBtn;
+@property (weak, nonatomic) UIButton *collectBtn;
 
 //分享
 @property (weak, nonatomic) UIButton *shareBtn;
+
 
 @end
 
@@ -108,15 +109,15 @@
         commentCount.font=[UIFont fontWithName:@"PingFangSC-Regular" size:11];
         [self addSubview:commentCount];
         
-        UIButton *starBtn = [UIButton new];
-        starBtn.tag=1002;
+        UIButton *collectBtn = [UIButton new];
+        collectBtn.tag=1002;
         //[starBtn setTitle:@"23" forState:UIControlStateNormal];
-        starBtn.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 60);
-        [starBtn setBackgroundImage:[UIImage imageNamed:@"star_btn_normal"] forState:UIControlStateNormal];
-        [starBtn setBackgroundImage:[UIImage imageNamed:@"star_btn_selected"] forState:UIControlStateSelected];
-        [starBtn addTarget:self action:@selector(toolBarBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        self.starBtn = starBtn;
-        [self addSubview:starBtn];
+        collectBtn.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 60);
+        [collectBtn setBackgroundImage:[UIImage imageNamed:@"star_btn_normal"] forState:UIControlStateNormal];
+        [collectBtn setBackgroundImage:[UIImage imageNamed:@"star_btn_selected"] forState:UIControlStateSelected];
+        [collectBtn addTarget:self action:@selector(toolBarBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        self.collectBtn = collectBtn;
+        [self addSubview:collectBtn];
         
         
         UIButton *shareBtn = [UIButton new];
@@ -184,7 +185,7 @@
         make.centerY.equalTo(self.commentBtn.mas_top);
     }];
     
-    [self.starBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@(iconBtnWidth));
         make.width.equalTo(@(iconBtnWidth));
         make.left.equalTo(self.commentBtn.mas_right).offset(35);
@@ -210,13 +211,19 @@
         case 1000:
             index=0;
             self.favorBtn.selected=!self.favorBtn.selected;
+            if (self.favorBtn.selected) {
+                self.favorCount++;
+            }else{
+                self.favorCount--;
+            }
+            [self setFavorCount:_favorCount];
             break;
         case 1001:
             index=1;
             break;
         case 1002:
             index=2;
-            self.starBtn.selected=!self.starBtn.selected;
+            self.collectBtn.selected=!self.collectBtn.selected;
             break;
         case 1003:
             index=3;
@@ -238,24 +245,40 @@
         [self.favorBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
     }
     
-    if (btn.tag==1002&&self.starBtn.selected) {
+    if (btn.tag==1002&&self.collectBtn.selected) {
         CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
         anima.toValue = [NSNumber numberWithFloat:2.0f];
         anima.duration = 0.1f;
-        [self.starBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
+        [self.collectBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
     }
 }
 
 - (void)setFavorCount:(int)favorCount{
-    self.favorCountLabel.text=[NSString stringWithFormat:@"%d",favorCount];
+    _favorCount=favorCount;
+    if (favorCount) {
+        _favorCountLabel.text=[NSString stringWithFormat:@"%d",favorCount];
+    }else{
+        _favorCountLabel.text=@"";
+    }
 }
 
 - (void)setCommontCount:(int)commontCount{
-    self.commentCountLabel.text=[NSString stringWithFormat:@"%d",commontCount];
+    _commontCount=commontCount;
+    if (commontCount) {
+        _commentCountLabel.text=[NSString stringWithFormat:@"%d",commontCount];
+    }else{
+        _commentCountLabel.text=@"";
+    }
 }
 
-- (void)setIsStar:(BOOL)isStar{
-    self.starBtn.selected=isStar;
+
+- (void)setIsFavor:(BOOL)isFavor{
+    _favorBtn.selected=isFavor;
 }
+
+- (void)setIsCollected:(BOOL)isCollected{
+    _isCollected=isCollected;
+}
+
 
 @end

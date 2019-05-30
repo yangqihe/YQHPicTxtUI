@@ -7,7 +7,6 @@
 //
 
 #import "YQHPicTxtCommentCell.h"
-#import "YYLabel.h"
 #import <Masonry/Masonry.h>
 #import "YQHPicTxtDefine.h"
 
@@ -23,6 +22,8 @@
 #define commentTxtLineSpace 1.0f
 #define commentTxtLineWidth (SCREEN_WIDTH-(marginLeft+marginRight))
 
+#define nameColor  [UIColor colorWithRed:222/255.0 green:102/255.0 blue:48/255.0 alpha:1/1.0]
+
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
     static NSString *ID = @"YQHPicTxtCommentCell";
@@ -34,6 +35,13 @@
     return cell;
 }
 
+
+-(void)selectCell:(UITapGestureRecognizer *)tapRecognizer{
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(didSelectModel:)]) {
+        [self.delegate didSelectModel:_model];
+    }
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -41,6 +49,7 @@
     if (self)
     {
         [self initLayout];
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectCell:)]];
     }
     
     return self;
@@ -56,12 +65,13 @@
     [contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@(SCREEN_WIDTH-marginLeft-marginRight));
     }];
-    
+    contentLabel.userInteractionEnabled=YES;
+    //[contentLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapComment)]];
     [self.contentView addSubview:contentLabel];
     self.contentLabel = contentLabel;
 }
 
--(void)setLabelSpace:(UILabel*)label withValue:(NSString*)str withFont:(UIFont*)font {
+-(NSMutableAttributedString *)setLabelSpace:(UILabel*)label withValue:(NSString*)str withFont:(UIFont*)font {
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paraStyle.alignment = NSTextAlignmentLeft;
@@ -73,8 +83,10 @@
     paraStyle.tailIndent = 0;
     //设置字间距 NSKernAttributeName:@1.5f
     NSDictionary *dic = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paraStyle, NSKernAttributeName:@1.5f};
-    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:label.text attributes:dic];
+    //NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:label.text attributes:dic];
+    NSMutableAttributedString *attributeStr=[[NSMutableAttributedString alloc] initWithString:label.text attributes:dic];
     label.attributedText = attributeStr;
+    return attributeStr;
 }
 
 
@@ -95,13 +107,50 @@
 }
 
 - (void)setModel:(YQHPicTxtCommentModel *)model{
-    self.contentLabel.text=model.text;
-    [self setLabelSpace:self.contentLabel withValue:model.text withFont:commentTxtFont];
+    _model=model;
+    NSString *text = [YQHPicTxtCommentCell getContext:model];
+    self.contentLabel.text=text;
+    NSMutableAttributedString *attributeStr=[self setLabelSpace:self.contentLabel withValue:text withFont:commentTxtFont];
+    
+    NSMutableAttributedString *attributeStr1=[self adjustTextColor:text rangeText1:model.fromUserName rangeText2:model.toUserName color: nameColor attribute:attributeStr];
+    
+    self.contentLabel.attributedText=attributeStr1;
+}
+
++(NSString*)getContext:(YQHPicTxtCommentModel *)model{
+    NSString *text;
+    if ([model.toUserName length]) {
+        text=[NSString stringWithFormat:@"%@ 回复 %@:%@",model.fromUserName,model.toUserName,model.text];
+    }else{
+        text=[NSString stringWithFormat:@"%@:%@",model.fromUserName,model.text];
+    }
+
+    return text;
+}
+
+- (NSMutableAttributedString *)adjustTextColor:(NSString *)text rangeText1:(NSString *)rangeText1 rangeText2:(NSString *)rangeText2 color:(UIColor *)color attribute:(NSMutableAttributedString*)attribute{
+    if ([rangeText1 length]) {
+        NSRange range1 = [text rangeOfString:rangeText1];
+        [attribute addAttributes:@{NSForegroundColorAttributeName:color} range:range1];
+    }
+    
+    if (rangeText2) {
+        NSUInteger index=rangeText1.length;
+        NSString *text_=[text substringFromIndex:index];
+        NSRange range2 = [text_ rangeOfString:rangeText2];
+        NSRange range3=NSMakeRange(index+4, rangeText2.length);
+        [attribute addAttributes:@{NSForegroundColorAttributeName:color} range:range3];
+    }
+    
+
+    
+    return attribute;
 }
 
 
 + (CGFloat)cellHeightWithModel:(YQHPicTxtCommentModel *)model{
-    CGFloat strHeight=[YQHPicTxtCommentCell getSpaceLabelHeight:model.text withFont:commentTxtFont withWidth:commentTxtLineWidth];
+    NSString *text = [YQHPicTxtCommentCell getContext:model];
+    CGFloat strHeight=[YQHPicTxtCommentCell getSpaceLabelHeight:text withFont:commentTxtFont withWidth:commentTxtLineWidth];
     return strHeight;
 }
 

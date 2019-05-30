@@ -14,31 +14,35 @@
 #import "YQHPicTxtCommentCell.h"
 #import "YQHPicTxtImageView.h"
 #import "YQHPicTxtDefine.h"
+#import "YQHChatDefine.h"
 
-@interface YQHPicTxtCell()<UITableViewDelegate , UITableViewDataSource>
+@interface YQHPicTxtCell()<UITableViewDelegate , UITableViewDataSource,YQHPicTxtCommentCellDelegate>
 
 //头像
 @property (nonatomic, strong) UIImageView* avatarView;
 
 //标题
-@property (strong, nonatomic) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
 
 //副标题
-@property (strong, nonatomic) UILabel *subTitleLabel;
+@property (nonatomic, strong) UILabel *subTitleLabel;
 
 //消息
-@property (strong, nonatomic) UILabel *detailLabel;
+@property (nonatomic, strong) UILabel *detailLabel;
 
 //时间
-@property (strong, nonatomic) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
+
 
 @property (nonatomic, strong) UIView* photosView;
+
 
 @property (nonatomic, strong) NSMutableArray* imageViewArray;
 
 @property (nonatomic, strong) UITableView* commentTableView;
 
-@property (nonatomic, strong) NSMutableArray* commentFrames;
+//记录当前cell的下标
+@property (nonatomic, strong) NSIndexPath* indexPath;
 
 @end
 
@@ -47,6 +51,7 @@
 
 const CGFloat avatarTxtMargin = 12.0f;//头像 文字 间隙
 const CGFloat txtImgMargin = 6.0f;//文字 照片 间隙
+const CGFloat imgBottomMargin = 6.0f;//照片 底部工具栏 间隙
 
 const CGFloat avatarMarginTop=15.0f;
 const CGFloat avatarWidth = 45.0f;
@@ -66,6 +71,7 @@ const CGFloat toolBarHeight = 50.0f;
 
 #define commonImageWidth (SCREEN_WIDTH-(marginLeft+marginRight+commonImageMagin*2))/3
 
+static CGFloat MaxPixel = 4096.0;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
@@ -90,14 +96,12 @@ const CGFloat toolBarHeight = 50.0f;
 
 - (void)initLayout
 {
-    _commentFrames=[NSMutableArray array];
     // 头像
     self.avatarView = [[UIImageView alloc] initWithFrame:CGRectMake(marginLeft, avatarMarginTop, avatarWidth, avatarWidth)];//图片的大小 66,66 50 ，50
     //self.avatarView.backgroundColor = [UIColor orangeColor];
     self.avatarView.layer.masksToBounds = YES;
     self.avatarView.layer.cornerRadius = avatarWidth/2;
     [self.contentView addSubview:self.avatarView];
-    
     
     //标题
     self.titleLabel = [UILabel new];
@@ -164,9 +168,9 @@ const CGFloat toolBarHeight = 50.0f;
     
     self.imageViewArray=[NSMutableArray array];
     
-    //UIImageView *lastImageView=nil;
     for (int i=0; i<9; i++) {
         YQHPicTxtImageView *imageView=[YQHPicTxtImageView new];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self.imageViewArray addObject:imageView];
         [self.photosView addSubview:imageView];
         imageView.userInteractionEnabled=YES;
@@ -174,7 +178,6 @@ const CGFloat toolBarHeight = 50.0f;
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius=4;
         [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImage:)]];
-        //lastImageView=imageView;
     }
     
     [self.photosView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -189,7 +192,7 @@ const CGFloat toolBarHeight = 50.0f;
     //self.bottomToolBar.backgroundColor=[UIColor grayColor];
     [self.bottomToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.mas_left);
-        make.top.equalTo(self.photosView.mas_bottom).offset(0);
+        make.top.equalTo(self.photosView.mas_bottom).offset(imgBottomMargin);
         make.height.equalTo(@(toolBarHeight));
         make.width.equalTo(@(SCREEN_WIDTH-marginLeft-marginRight));
     }];
@@ -206,9 +209,11 @@ const CGFloat toolBarHeight = 50.0f;
     tableView.showsVerticalScrollIndicator = NO;
     tableView.showsHorizontalScrollIndicator = NO;
     [self.contentView addSubview:tableView];
-    tableView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];
+    //tableView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];
+    tableView.backgroundColor=[UIColor clearColor];
     self.commentTableView = tableView;
-    
+    tableView.userInteractionEnabled=YES;
+    //tableView.isFirstResponder=YES;
     //self.commentTableView.backgroundColor=[UIColor redColor];
     
     [self.commentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,6 +223,12 @@ const CGFloat toolBarHeight = 50.0f;
     }];
 }
 
+
+-(void)didSelectModel:(YQHPicTxtCommentModel *)picTxtCommentModel{
+    if (self.commentDelegate&&[self.commentDelegate respondsToSelector:@selector(didSelect:picTxtModel:commentModel:)]) {
+        [self.commentDelegate didSelect:self.indexPath picTxtModel:self.model commentModel:picTxtCommentModel];
+    }
+}
 
 #pragma mark - UITableViewDelegate , UITableViewDataSource
 
@@ -235,6 +246,7 @@ const CGFloat toolBarHeight = 50.0f;
     YQHPicTxtCommentCell *cell = [YQHPicTxtCommentCell cellWithTableView:tableView];
     YQHPicTxtCommentModel *model=self.model.comments[indexPath.row];
     cell.model=model;
+    cell.delegate=self;
     return cell;
 }
 
@@ -247,7 +259,8 @@ const CGFloat toolBarHeight = 50.0f;
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //YQHPicTxtCommentModel *model=self.model.comments[indexPath.row];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -274,7 +287,6 @@ const CGFloat toolBarHeight = 50.0f;
 
 - (void)tapImage:(UITapGestureRecognizer *)tap
 {
-    //DLog(@"####### %ld",tap.view.tag);
     if (_imageDelegate&&[_imageDelegate respondsToSelector:@selector(imageClicked:model:view:)]) {
         [_imageDelegate imageClicked:(int)tap.view.tag model:self.model view:tap.view];
     }
@@ -301,7 +313,7 @@ const CGFloat toolBarHeight = 50.0f;
     
     CGFloat photosHeight=0;
     if (model.photos.count==1) {
-        photosHeight+=commonImageWidth*1.5;//自适应
+        photosHeight+=model.actualHeight;//[YQHPicTxtCell imageWidth:model.fileWidth imgHeight:model.fileHeight];//commonImageWidth*1.5;//自适应
     }else if (1<model.photos.count&&model.photos.count<=3){
         photosHeight+=commonImageWidth;
     }else if(3<model.photos.count&&model.photos.count<=6){
@@ -310,22 +322,32 @@ const CGFloat toolBarHeight = 50.0f;
         photosHeight+=commonImageWidth*3+commonImageMagin*2;
     }
     
-    [self.photosView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@(photosHeight));
-    }];
+    if (model.photos.count) {
+        [self.photosView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@(photosHeight));
+            make.top.equalTo(self.detailLabel.mas_bottom).offset(txtImgMargin);
+        }];
+    }else{
+        [self.photosView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@(photosHeight));
+            make.top.equalTo(self.detailLabel.mas_bottom).offset(0);
+        }];
+    }
+
     
     [self calculatePhotosPosition:model];
     
     self.bottomToolBar.commontCount=model.commentCount;
-    self.bottomToolBar.favorCount=model.likeCount;
-    self.bottomToolBar.isStar=model.isLike;
+    self.bottomToolBar.favorCount=model.favorCount;
+    self.bottomToolBar.isFavor=model.isFavor;
+    self.bottomToolBar.isCollected=model.isCollected;
     
     [YQHPicTxtCell calculateComment:model];
-    //评论的tableView
-    //self.commentTableView.frame = model.tableViewFrame;
+
     [self.commentTableView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@(model.tableViewFrame.size.height));
     }];
+    
     [self.commentTableView reloadData];
 }
 
@@ -339,11 +361,47 @@ const CGFloat toolBarHeight = 50.0f;
     if (model.photos.count==1) {
         
         UIImageView* imageView=self.imageViewArray[0];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[0]] placeholderImage:image_loading1 completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+        
+        //CGSize imageViewSize=imageView.frame.size;
+        
+        if (model.isVideo) {
             
-        }];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:model.videoThumbURL] placeholderImage:image_loading1 completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                
+            }];
+            
+        }else{
+            
+            if ([model.photos[0] hasPrefix:@"http"]){
+                [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[0]] placeholderImage:image_loading1 completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                    
+                }];
+            }else{
+                
+                UIImage *image=[UIImage imageNamed:model.photos[0]];
+                
+                imageView.image=image;
+                
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    UIImage *image=[UIImage imageNamed:model.photos[0]];
+//                    if (image.size.width * image.scale > MaxPixel || image.size.height * image.scale > MaxPixel){
+//                        CGSize size = CGSizeMake(imageViewSize.width, image.size.height / image.size.width * imageViewSize.width);
+//                        UIGraphicsBeginImageContext(size);
+//                        [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+//                        UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+//                        UIGraphicsEndImageContext();
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            imageView.image=scaledImage;
+//                        });
+//                    }
+//                });
+                
+            }
+        }
+
         imageView.hidden=NO;
-        imageView.frame=CGRectMake(0, 0, commonImageWidth, commonImageWidth*1.5);
+        imageView.frame=CGRectMake(0, 0, model.actualWidth, model.actualHeight);
         imageView.backgroundColor=[UIColor grayColor];
         
     }else if (model.photos.count==4){
@@ -411,13 +469,14 @@ const CGFloat toolBarHeight = 50.0f;
         
         CGFloat strHeight=[YQHPicTxtCell getSpaceLabelHeight:model.text withFont:detailTxtFont withWidth:detailTxtLineWidth];
         
-        
         height+=strHeight;
         
-        height+=txtImgMargin;//文字 照片 间隙
+        if (model.photos.count) {
+            height+=txtImgMargin;//文字 照片 间隙
+        }
         
         if (model.photos.count==1) {
-            height+=commonImageWidth*1.5;//自适应
+            height+=model.actualHeight;//[YQHPicTxtCell imageWidth:model.fileWidth imgHeight:model.fileHeight];
         }else if (1<model.photos.count&&model.photos.count<=3){
             height+=commonImageWidth;
         }else if(3<model.photos.count&&model.photos.count<=6){
@@ -425,6 +484,8 @@ const CGFloat toolBarHeight = 50.0f;
         }else if((6<model.photos.count&&model.photos.count<=9)){
             height+=commonImageWidth*3+commonImageMagin*2;
         }
+        
+        height+=imgBottomMargin;//照片底部工具栏间隙
         
         height+=toolBarHeight;//底部栏高度
         
@@ -436,6 +497,69 @@ const CGFloat toolBarHeight = 50.0f;
     }
     
     return 0;
+}
+
++ (CGFloat)calImageSize:(YQHPicTxtModel *)model{
+    
+    CGFloat imgWidth=model.fileWidth;
+    CGFloat imgHeight=model.fileHeight;
+    
+    CGFloat actualWidth=imgWidth;
+    CGFloat actualHeight=imgHeight;
+    
+    if (imgWidth == 0 || imgHeight == 0||imgWidth==imgHeight) {
+        
+        actualWidth = ChatMessageImageWidth;
+        actualHeight = ChatMessageImageHeight;
+        
+    }else if(imgWidth>imgHeight){
+        
+        //宽 大于 高
+        
+        if (imgWidth > ChatMessageImageMaxWidth) {
+            
+            actualWidth = ChatMessageImageMaxWidth;
+            
+        }else if(imgWidth<ChatMessageImageMinWidth){
+            
+            actualWidth =ChatMessageImageMinWidth;
+            
+        }
+        
+        actualHeight = imgHeight * actualWidth/imgWidth;
+        
+        if (actualHeight<ChatMessageImageMinHeight) {
+            
+            actualHeight = ChatMessageImageMinHeight;
+            
+        }
+        
+    }else{
+        
+        //高 大于 宽
+        if(imgHeight > ChatMessageImageMaxHeight){
+            
+            actualHeight = ChatMessageImageMaxHeight;
+            
+        }else if(imgHeight<ChatMessageImageMinHeight){
+            
+            actualHeight = ChatMessageImageMinHeight;
+            
+        }
+        
+        actualWidth =  imgWidth * actualHeight/imgHeight;
+        
+        if (actualWidth<ChatMessageImageMinWidth) {
+            
+            actualWidth = ChatMessageImageMinWidth;
+            
+        }
+    }
+    
+    model.actualWidth=actualWidth;
+    model.actualHeight=actualHeight;
+    
+    return actualHeight;
 }
 
 //计算评论高度
@@ -450,21 +574,17 @@ const CGFloat toolBarHeight = 50.0f;
         
         for (YQHPicTxtCommentModel *comment in model.comments)
         {
-            //YQHPicTxtCommentFrame *commentFrame = [[YQHPicTxtCommentFrame alloc] init];
-            //commentFrame.maxW = SCREEN_WIDTH;
-            //commentFrame.comment = comment;
-            //tableViewH += commentFrame.cellHeight;
             tableViewH+=[YQHPicTxtCommentCell cellHeightWithModel:comment];
         }
     }
     model.tableViewFrame=CGRectMake(marginLeft, model.cellHeight, SCREEN_WIDTH-marginLeft-marginRight, tableViewH);
-    //DLog(@"#######self.commentTableView.frame#######  %f",tableViewH);
     return model.tableViewFrame.size.height;
 }
 
 - (void)setDelegate:(id<YQHPicTxtToolBarDelegate>)delegate row:(NSIndexPath*)indexPath{
     self.bottomToolBar.delegate=delegate;
     self.bottomToolBar.indexPath=indexPath;
+    self.indexPath=indexPath;
 }
 
 -(void)setLabelSpace:(UILabel*)label withValue:(NSString*)str withFont:(UIFont*)font {
@@ -509,6 +629,21 @@ const CGFloat toolBarHeight = 50.0f;
         [super touchesBegan:touches withEvent:event];
     }
 }
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+//{
+//    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {
+//        return NO;
+//    }
+//    return  YES;
+//}
+
+//cell 中的tableView事件冲突 增加tap点击
+//-(void)tapTableViewCell:(UITapGestureRecognizer*)gesture{
+//    NSLog(@"%@",gesture.view);
+//    YQHPicTxtCommentCell *cell=gesture.view;
+//    NSLog(@"%@",cell);
+//}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

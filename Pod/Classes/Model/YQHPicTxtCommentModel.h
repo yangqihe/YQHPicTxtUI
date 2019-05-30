@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MHUser;
+//@class MHUser;
 
 @interface YQHPicTxtCommentModel : NSObject
 
@@ -22,10 +22,10 @@
 @property (nonatomic , copy) NSString *creatTime;
 
 /** 回复用户模型 */
-@property (nonatomic , strong) MHUser *toUser;
+@property (nonatomic , copy) NSString *toUserName;
 
 /** 来源用户模型 */
-@property (nonatomic , strong) MHUser *fromUser;
+@property (nonatomic , copy) NSString *fromUserName;
 
 /** 话题内容 */
 @property (nonatomic, copy) NSString *text;

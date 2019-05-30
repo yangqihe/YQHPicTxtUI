@@ -11,6 +11,15 @@
 
 #define commentTxtFont [UIFont fontWithName:@"PingFangSC-Regular" size:12*WidthScale]
 
+
+@protocol YQHPicTxtCommentCellDelegate <NSObject>
+
+@optional
+
+-(void)didSelectModel:(YQHPicTxtCommentModel *)picTxtCommentModel;
+
+@end
+
 @interface YQHPicTxtCommentCell : UITableViewCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
@@ -18,5 +27,7 @@
 + (CGFloat)cellHeightWithModel:(YQHPicTxtCommentModel*)model;
 
 @property (nonatomic, strong) YQHPicTxtCommentModel *model;
+
+@property (nonatomic, weak)  <YQHPicTxtCommentCellDelegate> delegate;
 
 @end

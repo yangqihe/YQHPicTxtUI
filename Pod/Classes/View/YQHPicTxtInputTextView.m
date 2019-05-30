@@ -16,6 +16,10 @@
 
 @property (nonatomic, weak)  UIButton* sendBtn;
 
+@property (nonatomic, weak)  YQHPicTxtModel* picTxtModel;
+
+@property (nonatomic, weak)  YQHPicTxtCommentModel* commentModel;
+
 @end
 
 @implementation YQHPicTxtInputTextView
@@ -57,14 +61,16 @@
     }];
 }
 
-- (void)willShow:(NSIndexPath *)indexPath{
+- (void)willShow:(NSIndexPath *)indexPath picTxtModel:(YQHPicTxtModel *)picTxtModel commentModel:(YQHPicTxtCommentModel *)commentModel{
     self.indexPath=indexPath;
+    self.picTxtModel=picTxtModel;
+    self.commentModel=commentModel;
     [self.textView becomeFirstResponder];
 }
 
 -(void)didSendTxt{
-    if (self.delegate&&[self.delegate respondsToSelector:@selector(didSendTxt:indexPath:)]) {
-        [self.delegate didSendTxt:self.textView.text indexPath:self.indexPath];
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(didSendTxt:indexPath:picTxtModel:commentModel:)]) {
+        [self.delegate didSendTxt:self.textView.text indexPath:self.indexPath picTxtModel:self.picTxtModel commentModel:self.commentModel];
     }
 }
 

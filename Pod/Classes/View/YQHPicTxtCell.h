@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "YQHPicTxtModel.h"
+#import "YQHPicTxtCommentModel.h"
 #import "YQHPicTxtToolBar.h"
 
 @protocol YQHPicTxtToolImageDelegate <NSObject>
@@ -17,11 +18,20 @@
 
 @end
 
+@protocol YQHPicTxtCommentDelegate <NSObject>
+
+@optional
+-(void)didSelect:(NSIndexPath *)indexPath picTxtModel:(YQHPicTxtModel *)picTxtModel commentModel:(YQHPicTxtCommentModel *)picTxtCommentModel;
+
+@end
+
 @interface YQHPicTxtCell : UITableViewCell
 
 @property (nonatomic, strong) YQHPicTxtModel* model;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
++(CGFloat)calImageSize:(YQHPicTxtModel*)model;
 
 + (CGFloat)cellHeightWithModel:(YQHPicTxtModel*)model;
 
@@ -30,5 +40,7 @@
 - (void)setDelegate:(id<YQHPicTxtToolBarDelegate>)delegate row:(NSIndexPath*)indexPath;
 
 @property (nonatomic , weak) id<YQHPicTxtToolImageDelegate>imageDelegate;
+
+@property (nonatomic , weak) id<YQHPicTxtCommentDelegate>commentDelegate;
 
 @end
