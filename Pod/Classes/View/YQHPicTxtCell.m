@@ -14,7 +14,6 @@
 #import "YQHPicTxtCommentCell.h"
 #import "YQHPicTxtImageView.h"
 #import "YQHPicTxtDefine.h"
-#import "YQHChatDefine.h"
 
 @interface YQHPicTxtCell()<UITableViewDelegate , UITableViewDataSource,YQHPicTxtCommentCellDelegate>
 
@@ -71,7 +70,7 @@ const CGFloat toolBarHeight = 50.0f;
 
 #define commonImageWidth (SCREEN_WIDTH-(marginLeft+marginRight+commonImageMagin*2))/3
 
-static CGFloat MaxPixel = 4096.0;
+//static CGFloat MaxPixel = 4096.0;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {

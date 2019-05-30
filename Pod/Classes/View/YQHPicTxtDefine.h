@@ -17,4 +17,15 @@
 #define marginLeft 16.0f
 #define marginRight 16.0f
 
+#define ChatMessageImageWidth 120
+#define ChatMessageImageHeight 120
+
+//图片最大尺寸和最小尺寸
+#define ChatMessageImageMaxWidth    160
+#define ChatMessageImageMinWidth     50
+
+#define ChatMessageImageMinHeight    50
+#define ChatMessageImageMaxHeight    160
+
+
 #endif /* YQHPicTxtDefine_h */

@@ -1,6 +1,6 @@
 {
   "name": "YQHPicTxtUI",
-  "version": "0.0.1",
+  "version": "0.0.22",
   "platforms": {
     "ios": "8.0"
   },
@@ -20,7 +20,7 @@
   },
   "source": {
     "git": "https://github.com/yangqihe/YQHPicTxtUI.git",
-    "tag": "0.0.1"
+    "tag": "0.0.22"
   },
   "public_header_files": "Pod/Classes/**/*.{h}",
   "source_files": "Pod/Classes/**/*",
