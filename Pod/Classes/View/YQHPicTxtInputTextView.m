@@ -10,7 +10,7 @@
 #import "YQHPicTxtTextView.h"
 #import <Masonry/Masonry.h>
 
-@interface YQHPicTxtInputTextView()
+@interface YQHPicTxtInputTextView()<UITextViewDelegate>
 
 @property (nonatomic, weak)  NSIndexPath* indexPath;
 
@@ -28,16 +28,28 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor= [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1/1.0];
+        
         YQHPicTxtTextView *inputTextView = [YQHPicTxtTextView new];
-        inputTextView.backgroundColor=[UIColor grayColor];
         self.textView=inputTextView;
+        self.textView.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:244/255.0 green:246/255.0 blue:249/255.0 alpha:1.0];
+        self.textView.layer.cornerRadius=15;
+        self.textView.delegate=self;
         [self addSubview:inputTextView];
         
         UIButton *btn=[UIButton new];
-        btn.backgroundColor=[UIColor redColor];
+        //btn.backgroundColor=[UIColor colorWithRed:254/255.0 green:80/255.0 blue:2/255.0 alpha:1/1.0];
+        [btn setBackgroundImage:[UIImage imageNamed:@"send_btn_normal_bg"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"send_btn_disable_bg"] forState:UIControlStateDisabled];
+        btn.titleLabel.font=[UIFont fontWithName:@"PingFangSC-Regular" size:15];
+        btn.titleLabel.textColor=[UIColor whiteColor];
         self.sendBtn=btn;
+        [btn setTitle:@"发送" forState:UIControlStateNormal];
         [self addSubview:btn];
+        btn.layer.masksToBounds=YES;
+        btn.layer.cornerRadius=5;
         [btn addTarget:self action:@selector(didSendTxt) forControlEvents:UIControlEventTouchUpInside];
+        btn.enabled=NO;
     }
     return self;
 }
@@ -47,17 +59,17 @@
     
     [self.sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@50);
-        make.height.equalTo(@50);
-        make.top.equalTo(self.mas_top);
-        make.right.equalTo(self.mas_right);
+        make.height.equalTo(@30);
+        //make.top.equalTo(self.mas_top);
+        make.right.equalTo(self.mas_right).offset(-15);
+        make.centerY.equalTo(self.mas_centerY);
     }];
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).offset(10);
-        make.right.equalTo(self.mas_right);
-        make.top.equalTo(self.mas_top);
-        make.height.equalTo(self.mas_height);
-        //make.width.equalTo(@(SCREEN_WIDTH-50));
+        make.left.equalTo(self.mas_left).offset(15);
+        make.right.equalTo(self.sendBtn.mas_left).offset(-15);
+        make.top.equalTo(self.mas_top).offset(7.5);
+        make.bottom.equalTo(self.mas_bottom).offset(-7.5);
     }];
 }
 
@@ -71,6 +83,26 @@
 -(void)didSendTxt{
     if (self.delegate&&[self.delegate respondsToSelector:@selector(didSendTxt:indexPath:picTxtModel:commentModel:)]) {
         [self.delegate didSendTxt:self.textView.text indexPath:self.indexPath picTxtModel:self.picTxtModel commentModel:self.commentModel];
+        
+        self.textView.text=@"";
+        self.textView.placeHolder=@"";
+        [self hiden];
+    }
+}
+
+- (void)setPlaceHolder:(NSString *)placeHolder{
+    self.textView.placeHolder=placeHolder;
+}
+
+- (void)hiden{
+    [self.textView endEditing:YES];
+}
+
+- (void)textViewDidChange:(UITextView *)textView{
+    if ([textView.text length]) {
+        self.sendBtn.enabled=YES;
+    }else{
+        self.sendBtn.enabled=NO;
     }
 }
 

@@ -27,5 +27,9 @@
 
 -(void)willShow:(NSIndexPath *)indexPath picTxtModel:(YQHPicTxtModel*)picTxtModel commentModel:(YQHPicTxtCommentModel*)commentModel;
 
+-(void)hiden;
+
+@property (nonatomic, strong) NSString* placeHolder;
+
 @end
 

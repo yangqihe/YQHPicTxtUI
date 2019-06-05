@@ -17,15 +17,17 @@
 #define marginLeft 16.0f
 #define marginRight 16.0f
 
-#define ChatMessageImageWidth 120
-#define ChatMessageImageHeight 120
+#define PicTxtImageWidth 120
+#define PicTxtImageHeight 120
 
 //图片最大尺寸和最小尺寸
-#define ChatMessageImageMaxWidth    160
-#define ChatMessageImageMinWidth     50
+#define PicTxtImageMaxWidth    160
+#define PicTxtImageMinWidth     50
 
-#define ChatMessageImageMinHeight    50
-#define ChatMessageImageMaxHeight    160
+
+#define PicTxtImageMaxHeight    160
+#define PicTxtImageMinHeight    50
+
 
 
 #endif /* YQHPicTxtDefine_h */

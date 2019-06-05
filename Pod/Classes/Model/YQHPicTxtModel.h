@@ -39,7 +39,11 @@
 //是否收藏
 @property (assign) BOOL isCollected;
 
+//动态类型
+@property (nonatomic, copy) NSString *type;
 
+//标签类型
+@property (nonatomic, copy) NSString *typeMarkTxt;
 
 /** 所有评论 MHComment */
 @property (nonatomic , strong) NSMutableArray *comments;

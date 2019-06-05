@@ -14,7 +14,9 @@ typedef void (^BtnClickBlock)(void);
 
 @property (nonatomic, strong) BtnClickBlock btnClick;
 
-@property (nonatomic) BOOL showMenu;
+@property (assign) BOOL showMenu;
+
+@property (assign) BOOL isVideo;
 
 @end
 

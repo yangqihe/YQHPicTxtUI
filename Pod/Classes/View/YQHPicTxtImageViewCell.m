@@ -60,7 +60,7 @@
     
     self.view.transform=CGAffineTransformMakeRotation(M_PI / 2);
     
-    self.view.label.text=@"小明";
+    self.view.label.text=@"";
 }
 
 @end

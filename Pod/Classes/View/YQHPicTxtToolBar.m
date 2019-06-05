@@ -210,8 +210,7 @@
     switch (btn.tag) {
         case 1000:
             index=0;
-            self.favorBtn.selected=!self.favorBtn.selected;
-            if (self.favorBtn.selected) {
+            if (!self.favorBtn.selected) {
                 self.favorCount++;
             }else{
                 self.favorCount--;
@@ -223,7 +222,7 @@
             break;
         case 1002:
             index=2;
-            self.collectBtn.selected=!self.collectBtn.selected;
+            //self.collectBtn.selected=!self.collectBtn.selected;
             break;
         case 1003:
             index=3;
@@ -234,23 +233,23 @@
     }
     
     
-    if (self.delegate&&[self.delegate respondsToSelector:@selector(didToolBarBtnClicked:indexPath:)]) {
-        [self.delegate didToolBarBtnClicked:index indexPath:self.indexPath];
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(didToolBarBtnClicked:btn:indexPath:)]) {
+        [self.delegate didToolBarBtnClicked:index btn:btn indexPath:self.indexPath];
     }
     
-    if (btn.tag==1000&&self.favorBtn.selected) {
-        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-        anima.toValue = [NSNumber numberWithFloat:2.0f];
-        anima.duration = 0.1f;
-        [self.favorBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
-    }
-    
-    if (btn.tag==1002&&self.collectBtn.selected) {
-        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-        anima.toValue = [NSNumber numberWithFloat:2.0f];
-        anima.duration = 0.1f;
-        [self.collectBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
-    }
+//    if (btn.tag==1000&&self.favorBtn.selected) {
+//        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+//        anima.toValue = [NSNumber numberWithFloat:2.0f];
+//        anima.duration = 0.1f;
+//        [self.favorBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
+//    }
+//    
+//    if (btn.tag==1002&&self.collectBtn.selected) {
+//        CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+//        anima.toValue = [NSNumber numberWithFloat:2.0f];
+//        anima.duration = 0.1f;
+//        [self.collectBtn.layer addAnimation:anima forKey:@"scaleAnimation"];
+//    }
 }
 
 - (void)setFavorCount:(int)favorCount{
@@ -277,7 +276,7 @@
 }
 
 - (void)setIsCollected:(BOOL)isCollected{
-    _isCollected=isCollected;
+    _collectBtn.selected = isCollected;
 }
 
 

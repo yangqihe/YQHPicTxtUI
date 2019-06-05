@@ -11,7 +11,7 @@
 @protocol YQHPicTxtToolBarDelegate <NSObject>
 
 @optional
-- (void)didToolBarBtnClicked:(int)index indexPath:(NSIndexPath *)indexPath;
+- (void)didToolBarBtnClicked:(int)index btn:(UIButton*)btn indexPath:(NSIndexPath *)indexPath;
 
 @end
 
