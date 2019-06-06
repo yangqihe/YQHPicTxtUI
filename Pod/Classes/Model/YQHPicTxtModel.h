@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    YQHPicTxtImageType = 1,    /*! \~chinese 图片类型 \~english Text */
+    YQHPicTxtVideoType = 2,         /*! \~chinese 视频类型 \~english Image */
+    YQHPicTxtWebViewType = 3,         /*! \~chinese 视频类型 \~english Video */
+} YQHPicTxtRankType;
+
+
 @interface YQHPicTxtModel : NSObject
 
 @property (nonatomic, copy) NSString* ID;
@@ -39,8 +46,11 @@
 //是否收藏
 @property (assign) BOOL isCollected;
 
+//图片排列类型
+@property (assign) YQHPicTxtRankType rankType;
+
 //动态类型
-@property (nonatomic, copy) NSString *type;
+@property (assign) NSString *type;
 
 //标签类型
 @property (nonatomic, copy) NSString *typeMarkTxt;

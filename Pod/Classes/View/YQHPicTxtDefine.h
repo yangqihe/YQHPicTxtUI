@@ -17,16 +17,15 @@
 #define marginLeft 16.0f
 #define marginRight 16.0f
 
-#define PicTxtImageWidth 120
-#define PicTxtImageHeight 120
-
-//图片最大尺寸和最小尺寸
-#define PicTxtImageMaxWidth    160
-#define PicTxtImageMinWidth     50
+//#define PicTxtImageWidth [UIScreen mainScreen].bounds.size.width*2/3
+//#define PicTxtImageHeight [UIScreen mainScreen].bounds.size.width/3
 
 
-#define PicTxtImageMaxHeight    160
-#define PicTxtImageMinHeight    50
+
+
+
+
+
 
 
 

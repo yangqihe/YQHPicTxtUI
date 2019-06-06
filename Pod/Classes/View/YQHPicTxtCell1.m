@@ -1,12 +1,11 @@
 //
-//  YQHPicTxtCell.m
-//  love
+//  YQHPicTxtCell1.m
+//  AFNetworking
 //
-//  Created by 杨棋贺 on 2019/5/23.
-//  Copyright © 2019 杨棋贺. All rights reserved.
+//  Created by 杨棋贺 on 2019/6/6.
 //
 
-#import "YQHPicTxtCell.h"
+#import "YQHPicTxtCell1.h"
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "YQHPicTxtDefine.h"
@@ -15,7 +14,7 @@
 #import "YQHPicTxtImageView.h"
 #import "YQHPicTxtDefine.h"
 
-@interface YQHPicTxtCell()<UITableViewDelegate , UITableViewDataSource,YQHPicTxtCommentCellDelegate>
+@interface YQHPicTxtCell1()<UITableViewDelegate , UITableViewDataSource,YQHPicTxtCommentCellDelegate>
 
 //头像
 @property (nonatomic, strong) UIImageView* avatarView;
@@ -50,8 +49,7 @@
 @property (nonatomic, strong) UIView* footerView;
 @end
 
-
-@implementation YQHPicTxtCell
+@implementation YQHPicTxtCell1
 
 #define avatarTxtMargin  12.0f //;//头像 文字 间隙
 #define txtImgMargin  6.0f //;//文字 照片 间隙
@@ -93,8 +91,8 @@
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *ID = @"YQHPicTxtCell";
-    YQHPicTxtCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    static NSString *ID = @"YQHPicTxtCell1";
+    YQHPicTxtCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
@@ -210,7 +208,7 @@
     //self.detailTypeMarkLabel.backgroundColor=[UIColor grayColor];
     self.detailTypeMarkLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
     self.detailTypeMarkLabel.textColor = [UIColor colorWithRed:50/255.0 green:162/255.0 blue:245/255.0 alpha:1/1.0];
-
+    
     [self.contentView addSubview:self.detailTypeMarkLabel];
     [self.detailTypeMarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.mas_left);
@@ -219,7 +217,7 @@
         make.height.equalTo(@(detailTypeMarkHeight));
     }];
     
-    self.bottomToolBar=[YQHPicTxtToolBar new];
+    self.bottomToolBar=[YQHPicTxtToolBar1 new];
     [self.contentView addSubview:self.bottomToolBar];
     //self.bottomToolBar.backgroundColor=[UIColor grayColor];
     [self.bottomToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -228,8 +226,6 @@
         make.height.equalTo(@(toolBarHeight));
         make.width.equalTo(@(SCREEN_WIDTH-marginLeft-marginRight));
     }];
-    
-    
     
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -254,6 +250,7 @@
         make.width.equalTo(@(SCREEN_WIDTH-marginLeft-marginRight));
     }];
     
+    
     _footerView=[UIView new];
     _footerView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];//[UIColor clearColor];
     [self.contentView addSubview:_footerView];
@@ -263,6 +260,7 @@
         make.top.equalTo(self.commentTableView.mas_bottom);
         make.left.equalTo(self.contentView.mas_left);
     }];
+    
 }
 
 
@@ -334,10 +332,10 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    if (self.model.comments.count) {
-//        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, commentFooterHeight)];
-//        return view;
-//    }
+    //    if (self.model.comments.count) {
+    //        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, commentFooterHeight)];
+    //        return view;
+    //    }
     return nil;
 }
 
@@ -378,7 +376,7 @@
     
     CGFloat photosHeight=0;
     if (model.photos.count==1) {
-        photosHeight+=[YQHPicTxtCell calImageSize:model];//model.actualHeight;//[YQHPicTxtCell imageWidth:model.fileWidth imgHeight:model.fileHeight];//commonImageWidth*1.5;//自适应
+        photosHeight+=[YQHPicTxtCell1 calImageSize:model];//model.actualHeight;//[YQHPicTxtCell imageWidth:model.fileWidth imgHeight:model.fileHeight];//commonImageWidth*1.5;//自适应
     }else if (1<model.photos.count&&model.photos.count<=3){
         photosHeight+=commonImageWidth;
     }else if(3<model.photos.count&&model.photos.count<=6){
@@ -406,7 +404,7 @@
             make.top.equalTo(self.detailTypeMarkLabel.mas_bottom).offset(0);
         }];
     }
-
+    
     
     [self calculatePhotosPosition:model];
     
@@ -428,8 +426,8 @@
     self.bottomToolBar.isFavor=model.isFavor;
     self.bottomToolBar.isCollected=model.isCollected;
     
-    [YQHPicTxtCell calculateComment:model];
-
+    [YQHPicTxtCell1 calculateComment:model];
+    
     [self.commentTableView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@(model.tableViewFrame.size.height));
     }];
@@ -476,7 +474,7 @@
                 
             }
         }
-
+        
         imageView.hidden=NO;
         imageView.frame=CGRectMake(0, 0, model.actualWidth, model.actualHeight);
         imageView.backgroundColor=[UIColor grayColor];
@@ -546,7 +544,7 @@
             height+=avatarTxtMargin;//头像 文字 间隙
         }
         
-        CGFloat strHeight=[YQHPicTxtCell getSpaceLabelHeight:model.text withFont:detailTxtFont withWidth:detailTxtLineWidth];
+        CGFloat strHeight=[YQHPicTxtCell1 getSpaceLabelHeight:model.text withFont:detailTxtFont withWidth:detailTxtLineWidth];
         
         height+=strHeight;
         
@@ -555,7 +553,7 @@
         }
         
         if (model.photos.count==1) {
-            height+=[YQHPicTxtCell calImageSize:model];//model.actualHeight;//[YQHPicTxtCell imageWidth:model.fileWidth imgHeight:model.fileHeight];
+            height+=[YQHPicTxtCell1 calImageSize:model];//model.actualHeight;//[YQHPicTxtCell imageWidth:model.fileWidth imgHeight:model.fileHeight];
         }else if (1<model.photos.count&&model.photos.count<=3){
             height+=commonImageWidth;
         }else if(3<model.photos.count&&model.photos.count<=6){
@@ -622,7 +620,7 @@
             }
             
         }
-
+        
     }else if (model.rankType==YQHPicTxtVideoType){
         
         if(imgWidth>imgHeight){
@@ -646,73 +644,73 @@
             }
             
         }
-
+        
     }else if (model.rankType==YQHPicTxtWebViewType){
         actualWidth = PicTxtImageMaxWidth;
         actualHeight = PicTxtImageHeight;
     }
     
     
-//    if (imgWidth == 0 || imgHeight == 0||imgWidth==imgHeight) {
-//
-//        if (model.isVideo) {
-//            actualWidth = PicTxtImageMaxWidth;
-//            actualHeight = actualWidth/2;
-//        }else{
-//            actualWidth = PicTxtImageWidth;
-//            actualHeight = PicTxtImageHeight;
-//        }
-//
-//    }else if(imgWidth>imgHeight){
-//
-//        //宽 大于 高
-//
-//        if (model.isVideo) {
-//            actualWidth = PicTxtImageMaxWidth;
-//            actualHeight = actualWidth/2;
-//        }else{
-//
-//            if (imgWidth > PicTxtImageMaxWidth) {
-//
-//                actualWidth = PicTxtImageMaxWidth;
-//
-//            }else if(imgWidth<PicTxtImageMinWidth){
-//
-//                actualWidth =PicTxtImageMinWidth;
-//
-//            }
-//
-//            actualHeight = imgHeight * actualWidth/imgWidth;
-//
-//            if (actualHeight<PicTxtImageMinHeight) {
-//
-//                actualHeight = PicTxtImageMinHeight;
-//
-//            }
-//
-//        }
-//
-//    }else{
-//
-//        //高 大于 宽
-//        if(imgHeight > PicTxtImageMaxHeight){
-//
-//            actualHeight = PicTxtImageMaxHeight;
-//
-//        }else if(imgHeight<PicTxtImageMinHeight){
-//
-//            actualHeight = PicTxtImageMinHeight;
-//
-//        }
-//
-//        actualWidth =  imgWidth * actualHeight/imgHeight;
-//
-//        if (actualWidth<PicTxtImageMinWidth) {
-//
-//            actualWidth = PicTxtImageMinWidth;
-//
-//        }
-//    }
+    //    if (imgWidth == 0 || imgHeight == 0||imgWidth==imgHeight) {
+    //
+    //        if (model.isVideo) {
+    //            actualWidth = PicTxtImageMaxWidth;
+    //            actualHeight = actualWidth/2;
+    //        }else{
+    //            actualWidth = PicTxtImageWidth;
+    //            actualHeight = PicTxtImageHeight;
+    //        }
+    //
+    //    }else if(imgWidth>imgHeight){
+    //
+    //        //宽 大于 高
+    //
+    //        if (model.isVideo) {
+    //            actualWidth = PicTxtImageMaxWidth;
+    //            actualHeight = actualWidth/2;
+    //        }else{
+    //
+    //            if (imgWidth > PicTxtImageMaxWidth) {
+    //
+    //                actualWidth = PicTxtImageMaxWidth;
+    //
+    //            }else if(imgWidth<PicTxtImageMinWidth){
+    //
+    //                actualWidth =PicTxtImageMinWidth;
+    //
+    //            }
+    //
+    //            actualHeight = imgHeight * actualWidth/imgWidth;
+    //
+    //            if (actualHeight<PicTxtImageMinHeight) {
+    //
+    //                actualHeight = PicTxtImageMinHeight;
+    //
+    //            }
+    //
+    //        }
+    //
+    //    }else{
+    //
+    //        //高 大于 宽
+    //        if(imgHeight > PicTxtImageMaxHeight){
+    //
+    //            actualHeight = PicTxtImageMaxHeight;
+    //
+    //        }else if(imgHeight<PicTxtImageMinHeight){
+    //
+    //            actualHeight = PicTxtImageMinHeight;
+    //
+    //        }
+    //
+    //        actualWidth =  imgWidth * actualHeight/imgHeight;
+    //
+    //        if (actualWidth<PicTxtImageMinWidth) {
+    //
+    //            actualWidth = PicTxtImageMinWidth;
+    //
+    //        }
+    //    }
     
     model.actualWidth=actualWidth;
     model.actualHeight=actualHeight;

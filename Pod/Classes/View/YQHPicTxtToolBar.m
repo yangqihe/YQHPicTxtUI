@@ -7,7 +7,7 @@
 //
 
 #import "YQHPicTxtToolBar.h"
-#import "YQHPicTxtDefine.h"
+//#import "YQHPicTxtDefine.h"
 #import <Masonry/Masonry.h>
 
 @interface YQHPicTxtToolBar()
@@ -42,6 +42,8 @@
 @end
 
 @implementation YQHPicTxtToolBar
+
+#define WidthScale [UIScreen mainScreen].bounds.size.width / 375
 
 #define iconBtnWidth WidthScale*20
 
@@ -138,7 +140,7 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    CGFloat commonImageWidth=self.frame.size.width/4 ;
+    CGFloat commonImageWidth1=self.frame.size.width/4 ;
     
     CGFloat commonImageHeight=self.frame.size.height;
     
@@ -151,9 +153,9 @@
         //view.backgroundColor=[UIColor orangeColor];
         int row = i/4;
         int column = i%4;
-        CGFloat x = startX + column * (commonImageWidth + margin);
+        CGFloat x = startX + column * (commonImageWidth1 + margin);
         CGFloat y = startY + row * (commonImageHeight + margin);
-        view.frame = CGRectMake(x, y, commonImageWidth, commonImageHeight);
+        view.frame = CGRectMake(x, y, commonImageWidth1, commonImageHeight);
         [self addSubview:view];
     }
     
