@@ -14,7 +14,10 @@
 @protocol YQHPicTxtToolImageDelegate <NSObject>
 
 @optional
+
 - (void)imageClicked:(int)index  model:(YQHPicTxtModel *)model  view:(UIView*)view;
+
+- (void)delBtnClicked:(NSIndexPath*)indexPath  model:(YQHPicTxtModel *)model;
 
 @end
 

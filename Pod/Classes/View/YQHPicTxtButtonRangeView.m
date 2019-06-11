@@ -58,7 +58,7 @@
 }
 
 + (CGFloat)heightWithArray:(NSMutableArray*)btnArray{
-    int row = ((int)btnArray.count)/3;
+    int row = ((int)btnArray.count)/4;
     
     CGFloat btnHeight=32*WidthScale;
     CGFloat ImageMagin = 8;

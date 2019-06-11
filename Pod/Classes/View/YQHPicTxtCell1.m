@@ -47,6 +47,8 @@
 @property (nonatomic, strong) NSIndexPath* indexPath;
 
 @property (nonatomic, strong) UIView* footerView;
+
+@property (nonatomic, strong) UIButton* delBtn;
 @end
 
 @implementation YQHPicTxtCell1
@@ -261,8 +263,23 @@
         make.left.equalTo(self.contentView.mas_left);
     }];
     
+    self.delBtn=[UIButton new];
+    [self.delBtn setBackgroundImage:[UIImage imageNamed:@"pic_txt_cell_del"] forState:UIControlStateNormal];
+    [self.contentView addSubview:self.delBtn];
+    [self.delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@(20*WidthScale));
+        make.width.equalTo(@(20*WidthScale));
+        make.centerY.equalTo(self.titleLabel.mas_centerY);
+        make.right.equalTo(self.contentView.mas_right).offset(-18);
+    }];
+    [self.delBtn addTarget:self action:@selector(cellDelAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
+-(void)cellDelAction{
+    if (_imageDelegate&&[_imageDelegate respondsToSelector:@selector(delBtnClicked:model:)]) {
+        [_imageDelegate delBtnClicked:self.indexPath model:self.model];
+    }
+}
 
 -(void)didSelectModel:(YQHPicTxtCommentModel *)picTxtCommentModel{
     if (self.commentDelegate&&[self.commentDelegate respondsToSelector:@selector(didSelect:picTxtModel:commentModel:)]) {
@@ -357,6 +374,12 @@
 - (void)setModel:(YQHPicTxtModel *)model{
     
     _model=model;
+    
+    if (model.canDelete) {
+        self.delBtn.hidden=NO;
+    }else{
+        self.delBtn.hidden=YES;
+    }
     
     NSURL* avatarUrl = [NSURL URLWithString:model.avatarUrl];
     

@@ -16,6 +16,7 @@
 #import "YQHPicTxtButton.h"
 #import "YQHPicTxtButtonRangeView.h"
 #import "YQHPicTxtCell.h"
+#import "YQHPicTxtCell1.h"
 #import "YQHPicTxtCommentCell.h"
 #import "YQHPicTxtDefine.h"
 #import "YQHPicTxtImageView.h"
@@ -26,6 +27,7 @@
 #import "YQHPicTxtTextView.h"
 #import "YQHPicTxtTitleView.h"
 #import "YQHPicTxtToolBar.h"
+#import "YQHPicTxtToolBar1.h"
 
 FOUNDATION_EXPORT double YQHPicTxtUIVersionNumber;
 FOUNDATION_EXPORT const unsigned char YQHPicTxtUIVersionString[];

@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
+@class YQHPicTxtImageView1;
 @interface YQHPicTxtImageViewCell : UITableViewCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
-@end
+@property (nonatomic, strong)  YQHPicTxtImageView1* picTxtImageView1;
 
-NS_ASSUME_NONNULL_END
+@property (nonatomic, strong) NSString* name;
+
+@end

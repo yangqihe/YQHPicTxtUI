@@ -36,7 +36,7 @@
         
         UILabel *label=[UILabel new];
         label.textAlignment=NSTextAlignmentCenter;
-        label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:10.5*WidthScale];
+        label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:10*WidthScale];
         label.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1/1.0];
         [self addSubview:label];
         self.label=label;
@@ -73,13 +73,13 @@
 
 -(void)imageDelBtnClick:(UIButton*)btn{
     if (self.delegate&&[self.delegate respondsToSelector:@selector(didImageDelBtnClicked:index:)]) {
-        [self.delegate didImageDelBtnClicked:self index:(int)self.imageView.tag];
+        [self.delegate didImageDelBtnClicked:self index:self.index];
     }
 }
 
 -(void)imageClick{
     if (self.delegate&&[self.delegate respondsToSelector:@selector(didImageClicked:index:)]) {
-        [self.delegate didImageClicked:self index:(int)self.imageView.tag];
+        [self.delegate didImageClicked:self index:self.index];
     }
 }
 

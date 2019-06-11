@@ -31,4 +31,6 @@
 
 @property (nonatomic, weak)  id<YQHPicTxtImageDelegate> delegate;
 
+@property (nonatomic, assign) int index;
+
 @end

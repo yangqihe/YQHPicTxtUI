@@ -13,8 +13,6 @@
 
 @interface YQHPicTxtImageViewCell()
 
-@property (nonatomic, strong)  YQHPicTxtImageView1* view;
-
 @end
 
 @implementation YQHPicTxtImageViewCell
@@ -25,7 +23,8 @@
     YQHPicTxtImageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.backgroundColor=[UIColor clearColor];
+        cell.backgroundColor=[UIColor whiteColor];
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -44,23 +43,26 @@
 
 - (void)initLayout
 {
-    self.view=[YQHPicTxtImageView1 new];
-    [self.contentView addSubview:self.view];
+    self.picTxtImageView1=[YQHPicTxtImageView1 new];
+    [self.contentView addSubview:self.picTxtImageView1];
     
-    self.view.imageView.image=[UIImage imageNamed:@"icon_user_parents_def"];
+    self.picTxtImageView1.imageView.image=[UIImage imageNamed:@"icon_user_parents_def"];
     
-    [self.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.picTxtImageView1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@(42*WidthScale));
         make.height.equalTo(@(60*WidthScale));
         make.top.equalTo(self.contentView.mas_top);
         make.right.equalTo(self.contentView.mas_right).offset(-8);
     }];
     
-    //self.view.backgroundColor=[UIColor grayColor];
+    self.picTxtImageView1.transform=CGAffineTransformMakeRotation(M_PI / 2);
     
-    self.view.transform=CGAffineTransformMakeRotation(M_PI / 2);
-    
-    self.view.label.text=@"";
+    self.picTxtImageView1.label.text=@"";
 }
+
+-(void)setName:(NSString *)name{
+    self.picTxtImageView1.label.text=name;
+}
+
 
 @end

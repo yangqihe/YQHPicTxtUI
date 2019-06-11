@@ -78,6 +78,14 @@
     self.picTxtModel=picTxtModel;
     self.commentModel=commentModel;
     [self.textView becomeFirstResponder];
+    
+    
+    NSString *content = [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([content length]) {
+        self.sendBtn.enabled=YES;
+    }else{
+        self.sendBtn.enabled=NO;
+    }
 }
 
 -(void)didSendTxt{
@@ -99,7 +107,8 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView{
-    if ([textView.text length]) {
+    NSString *content = [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([content length]) {
         self.sendBtn.enabled=YES;
     }else{
         self.sendBtn.enabled=NO;

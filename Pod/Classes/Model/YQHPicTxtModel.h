@@ -37,6 +37,7 @@ typedef enum {
 //照片
 @property (nonatomic, strong) NSArray* photos;
 
+@property (assign) BOOL canDelete;
 //是否喜欢
 @property (assign) BOOL isFavor;
 
