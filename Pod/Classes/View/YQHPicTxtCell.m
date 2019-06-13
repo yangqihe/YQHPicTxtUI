@@ -68,10 +68,6 @@
 
 #define footerViewHeight 10.0f
 
-#define image_loading1 [UIImage imageNamed:@"pic_txt_image_bg"]
-//#define image_loading2 [UIImage imageNamed:@"image_loading2"]
-//#define image_loading3 [UIImage imageNamed:@"image_loading3"]
-
 #define titleTxtFont [UIFont boldSystemFontOfSize:15*WidthScale]
 
 #define detailTxtFont [UIFont fontWithName:@"PingFangSC-Regular" size:13*WidthScale]
@@ -362,7 +358,7 @@
     
     NSURL* avatarUrl = [NSURL URLWithString:model.avatarUrl];
     
-    [self.avatarView sd_setImageWithURL:avatarUrl placeholderImage:[UIImage imageNamed:@"image_loading1"] options:SDWebImageRefreshCached];
+    [self.avatarView sd_setImageWithURL:avatarUrl placeholderImage:pic_txt_icon_bg options:SDWebImageRefreshCached];
     
     self.titleLabel.text=model.title;
     
@@ -456,7 +452,7 @@
             
             imageView.isVideo=YES;
             
-            [imageView sd_setImageWithURL:[NSURL URLWithString:model.videoThumbURL] placeholderImage:image_loading1 completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:model.videoThumbURL] placeholderImage:pic_txt_image_bg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                 
             }];
             
@@ -465,7 +461,7 @@
             imageView.isVideo=NO;
             
             if ([model.photos[0] hasPrefix:@"http"]){
-                [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[0]] placeholderImage:image_loading1 completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[0]] placeholderImage:pic_txt_image_bg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
                     
                 }];
             }else{
@@ -493,7 +489,7 @@
         
         for (int i = 0; i<count; i++) {
             UIImageView* imageView=self.imageViewArray[i];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[i]] placeholderImage:image_loading1 options:SDWebImageRefreshCached];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[i]] placeholderImage:pic_txt_image_bg options:SDWebImageRefreshCached];
             imageView.hidden=NO;
             imageView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];//[UIColor grayColor];
             int row = i/2;
@@ -515,7 +511,7 @@
         
         for (int i = 0; i<count; i++) {
             UIImageView* imageView=self.imageViewArray[i];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[i]] placeholderImage:image_loading1 options:SDWebImageRefreshCached];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[i]] placeholderImage:pic_txt_image_bg options:SDWebImageRefreshCached];
             imageView.hidden=NO;
             imageView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];//[UIColor grayColor];
             int row = i/3;

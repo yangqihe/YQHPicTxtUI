@@ -21,8 +21,9 @@
 //#define PicTxtImageHeight [UIScreen mainScreen].bounds.size.width/3
 
 
+#define pic_txt_image_bg [UIImage imageNamed:@"pic_txt_image_bg"]
 
-
+#define pic_txt_icon_bg [UIImage imageNamed:@"pic_txt_icon_bg"]
 
 
 
