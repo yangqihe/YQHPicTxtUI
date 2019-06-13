@@ -52,8 +52,8 @@
     }];
     
     [self.videoTagView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@(30*WidthScale));
-        make.height.equalTo(@(30*WidthScale));
+        make.width.equalTo(@(50*WidthScale));
+        make.height.equalTo(@(50*WidthScale));
         make.centerX.equalTo(self.mas_centerX);
         make.centerY.equalTo(self.mas_centerY);
     }];

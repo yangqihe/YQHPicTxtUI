@@ -500,7 +500,7 @@
         
         imageView.hidden=NO;
         imageView.frame=CGRectMake(0, 0, model.actualWidth, model.actualHeight);
-        imageView.backgroundColor=[UIColor grayColor];
+        imageView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];//[UIColor grayColor];
         
     }else if (model.photos.count==4){
         
@@ -516,7 +516,7 @@
             UIImageView* imageView=self.imageViewArray[i];
             [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[i]] placeholderImage:image_loading1 options:SDWebImageRefreshCached];
             imageView.hidden=NO;
-            imageView.backgroundColor=[UIColor grayColor];
+            imageView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];//[UIColor grayColor];
             int row = i/2;
             int column = i%2;
             CGFloat x = startX + column * (commonImageWidth + commonImageMagin);
@@ -538,7 +538,7 @@
             UIImageView* imageView=self.imageViewArray[i];
             [imageView sd_setImageWithURL:[NSURL URLWithString:model.photos[i]] placeholderImage:image_loading1 options:SDWebImageRefreshCached];
             imageView.hidden=NO;
-            imageView.backgroundColor=[UIColor grayColor];
+            imageView.backgroundColor=[UIColor colorWithRed:246/255.0f green:247/255.0f blue:248/255.0f alpha:1.0];//[UIColor grayColor];
             int row = i/3;
             int column = i%3;
             CGFloat x = startX + column * (commonImageWidth + commonImageMagin);

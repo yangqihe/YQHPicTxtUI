@@ -3,7 +3,7 @@ PODS:
   - SDWebImage (5.0.3):
     - SDWebImage/Core (= 5.0.3)
   - SDWebImage/Core (5.0.3)
-  - YQHPicTxtUI (0.0.25):
+  - YQHPicTxtUI (0.0.26):
     - Masonry (~> 1.1.0)
     - SDWebImage (~> 5.0)
     - YYText (~> 1.0.7)
@@ -28,7 +28,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SDWebImage: d4f87d7d36c8a4d9f9459dc282e0caa057fdf935
-  YQHPicTxtUI: 683124b9c336206a0e6e6f5e1cec17d8cd0f0ce1
+  YQHPicTxtUI: 4ac3936be33c538681e13a737eefde95e1d190c9
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
 PODFILE CHECKSUM: 9d400aee155db6fe1ea4e5e042b74f830151c753

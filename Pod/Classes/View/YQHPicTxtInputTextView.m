@@ -24,6 +24,8 @@
 
 @implementation YQHPicTxtInputTextView
 
+#define WidthScale      [UIScreen mainScreen].bounds.size.width / 375
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -69,7 +71,8 @@
         make.left.equalTo(self.mas_left).offset(15);
         make.right.equalTo(self.sendBtn.mas_left).offset(-15);
         make.top.equalTo(self.mas_top).offset(7.5);
-        make.bottom.equalTo(self.mas_bottom).offset(-7.5);
+        //make.bottom.equalTo(self.mas_bottom).offset(-7.5);
+        make.height.equalTo(@(35*WidthScale));
     }];
 }
 
@@ -90,7 +93,7 @@
 
 -(void)didSendTxt{
     if (self.delegate&&[self.delegate respondsToSelector:@selector(didSendTxt:indexPath:picTxtModel:commentModel:)]) {
-        [self.delegate didSendTxt:self.textView.text indexPath:self.indexPath picTxtModel:self.picTxtModel commentModel:self.commentModel];
+        [self.delegate didSendTxt:[self removeSpaceAndNewline:self.textView.text] indexPath:self.indexPath picTxtModel:self.picTxtModel commentModel:self.commentModel];
         
         self.textView.text=@"";
         self.textView.placeHolder=@"";
@@ -107,12 +110,20 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView{
-    NSString *content = [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *content = [self removeSpaceAndNewline:self.textView.text];//[self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if ([content length]) {
         self.sendBtn.enabled=YES;
     }else{
         self.sendBtn.enabled=NO;
     }
 }
+
+
+- (NSString *)removeSpaceAndNewline:(NSString *)str{
+    NSString *temp = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *text = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return text;
+}
+
 
 @end
