@@ -21,6 +21,10 @@
 
 @interface YQHPicTxtInputTextView : UIView
 
++(instancetype)showWithFrame:(CGRect)frame;
+
+@property (nonatomic, weak)  UIView* bodyView;
+
 @property (nonatomic, weak)  YQHPicTxtTextView* textView;
 
 @property (nonatomic, weak)  id<YQHPicTxtInputTextViewDelegate> delegate;
