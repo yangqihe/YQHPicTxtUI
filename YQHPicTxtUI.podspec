@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
 
   spec.summary      = "图文混排"
 
-  spec.description  = "支持无限滚动、gif、视频"
+  spec.description  = "支持无限滚动、gif、视频等"
                    
   spec.homepage     = "https://github.com/yangqihe/YQHPicTxtUI"
 
