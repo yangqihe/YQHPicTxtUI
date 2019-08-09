@@ -61,7 +61,7 @@
 
 #define avatarMarginTop 15.0f //;
 #define avatarWidth  45.0f //;
-#define toolBarHeight  35.0f //;
+#define toolBarHeight  45.0f //;
 
 #define commentHeaderHeight  30.0f //;//评论header高度
 #define commentFooterHeight  5.0f //;//评论footer高度
@@ -211,7 +211,7 @@
     [self.contentView addSubview:self.detailTypeMarkLabel];
     [self.detailTypeMarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.mas_left);
-        make.top.equalTo(self.photosView.mas_bottom);
+        make.top.equalTo(self.photosView.mas_bottom).offset(8);
         make.width.equalTo(@(SCREEN_WIDTH-marginLeft-marginRight));
         make.height.equalTo(@(detailTypeMarkHeight));
     }];

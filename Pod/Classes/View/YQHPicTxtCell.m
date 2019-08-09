@@ -534,6 +534,8 @@
         
         CGFloat height=0;
         
+        height+=8;//文字详情距离底边距 后加的
+        
         height+=avatarMarginTop;//头像 顶部 缝隙
         
         height+=avatarWidth;//头像 高度
